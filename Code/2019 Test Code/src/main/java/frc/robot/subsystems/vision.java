@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import java.util.HashMap;
 import java.util.Map;
+import frc.robot.commands.visionCommand;
 
 /**
  * Add your docs here.
@@ -32,6 +33,7 @@ public class vision extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new visionCommand());
   }
   public Map<String,String> getData(){
     Map<String,String> temp = new HashMap<String,String>();
