@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.driveTrainSubSystem;
 import frc.robot.subsystems.vision;
 
 /**
@@ -28,6 +29,8 @@ public class Robot extends TimedRobot {
   public static vision visionSub = new vision();
   public static OI m_oi;
 
+  public static driveTrainSubSystem driveTrainSub = new driveTrainSubSystem();
+
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -41,7 +44,7 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-
+    visionSub.arduinoSettup();
     
   }
 

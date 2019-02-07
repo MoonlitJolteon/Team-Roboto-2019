@@ -8,14 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import frc.robot.OI;
 
-public class visionCommand extends Command {
-  public visionCommand() {
+public class TeleopDriveCommand extends Command {
+  public TeleopDriveCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(Robot.visionSub);
   }
 
   // Called just before this Command runs the first time
@@ -26,9 +23,6 @@ public class visionCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (OI.operator.getPOV()==270){
-      aimLeft();
-    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -47,18 +41,4 @@ public class visionCommand extends Command {
   @Override
   protected void interrupted() {
   }
-  private void aimLeft(){
-    final int[] target = {90,110};
-    if (Robot.visionSub.visionData.get("tape-x")!="none"){
-      int temp = Integer.parseInt(Robot.visionSub.visionData.get("tape-x"));
-      if (temp < target[0] ){
-        // turn left but NATHAN
-      } else if (temp > target[1]){
-        // turn right but NATHAN
-      } else {
-        // Drop the thing on the left
-      }
-    }
-  }
-
 }
