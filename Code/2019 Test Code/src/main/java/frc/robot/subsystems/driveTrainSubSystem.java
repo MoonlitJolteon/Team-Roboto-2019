@@ -8,8 +8,8 @@
 package frc.robot.subsystems;
 
 //import edu.wpi.first.wpilibj.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.Spark;
+//import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -22,7 +22,7 @@ import frc.robot.commands.TeleopDriveCommand;
 public class driveTrainSubSystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  VictorSP
+  Spark
     leftDrive,
     rightDrive;
 
@@ -31,8 +31,8 @@ public class driveTrainSubSystem extends Subsystem {
     //DoubleSolenoid transmission;
 
     public driveTrainSubSystem() {
-      leftDrive = new VictorSP(1);
-      rightDrive = new VictorSP(2);
+      leftDrive = new Spark(0);
+      rightDrive = new Spark(1);
 
       drive = new DifferentialDrive(leftDrive, rightDrive);
     }
