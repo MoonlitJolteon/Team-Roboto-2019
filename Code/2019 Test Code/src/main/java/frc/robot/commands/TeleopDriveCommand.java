@@ -8,11 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.*;
 
 public class TeleopDriveCommand extends Command {
   public TeleopDriveCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    requires(Robot.driveTrainSub);
   }
 
   // Called just before this Command runs the first time
@@ -23,6 +25,7 @@ public class TeleopDriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    drive();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -40,5 +43,11 @@ public class TeleopDriveCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.driveTrainSub.stop();
+  }
+  private void drive() {
+    if (OI.operator.getPOV()==-1){
+      Robot.driveTrainSub.tankDrive(OI.leftStick.getY(), OI.rightStick.getY());
+    }
   }
 }
