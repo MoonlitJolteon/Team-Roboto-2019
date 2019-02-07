@@ -89,7 +89,7 @@ private void aimFront(){
       } else if (temp > target[1]){
         Robot.driveTrainSub.tankDrive(speed, -speed);
       } else {
-        // Drop the thing on the right
+        // Drop the thing in the front
       }
   }
 }
