@@ -49,17 +49,24 @@ public class vision extends Subsystem {
   }
   public void update(){
     Map<String,String> temp = new HashMap<String,String>();
-    String s = arduino.readString();
-    if (s == ""){
+    boolean success = true;
+    String s = "";
+    try{
+      s = arduino.readString();
+    } catch(Exception e) {
       visionData=temp;
-    } else {
+      success=false;
+    }
+    if (success){
+      System.out.println(s);
       String[] pairs = s.split(",");
       for (int i=0;i<pairs.length;i++){
         String pair = pairs[i];
         String[] keyValue = pair.split(":");
-        temp.put(keyValue[0],keyValue[1]);
+        if(keyValue.length>1){
+          temp.put(keyValue[0],keyValue[1]);
+        }
       }
-      System.out.println(s);
       visionData=temp;
     }
   }

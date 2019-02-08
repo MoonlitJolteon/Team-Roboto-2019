@@ -106,7 +106,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    visionSub.update();
+    //visionSub.update();
     Scheduler.getInstance().run();
   }
 
@@ -126,7 +126,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    visionSub.update();
+    //visionSub.update();
     Scheduler.getInstance().run();
   }
 
