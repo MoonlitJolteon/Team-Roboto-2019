@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Add your docs here.
  */
-public class vision extends Subsystem {
+public class VisionSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   private SerialPort arduino;

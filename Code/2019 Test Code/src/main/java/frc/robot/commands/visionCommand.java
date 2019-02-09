@@ -10,7 +10,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.*;
 
-public class visionCommand extends Command {
+/*public class VisionCommand extends Command {
   public visionCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -93,4 +93,4 @@ private void aimFront(){
       }
   }
 }
-}
+}*/

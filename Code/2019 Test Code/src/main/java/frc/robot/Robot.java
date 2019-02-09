@@ -12,10 +12,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.driveTrainSubSystem;
-import frc.robot.subsystems.vision;
+import frc.robot.subsystems.BallSubsystem;
+import frc.robot.subsystems.DriveTrainSubSystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 import frc.robot.utils.*;
 
@@ -27,12 +26,12 @@ import frc.robot.utils.*;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
-  public static vision visionSub = new vision();
+  
+  public static DriveTrainSubSystem driveTrainSub = new DriveTrainSubSystem();
+  //public static VisionSubsystem visionSub = new VisionSubsystem();
+  public static BallSubsystem ballSub = new BallSubsystem();
+
   public static OI m_oi;
-
-  public static driveTrainSubSystem driveTrainSub = new driveTrainSubSystem();
-
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -45,7 +44,7 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    visionSub.arduinoSettup();
+    //visionSub.arduinoSettup();
 
     Utilities.init();
 
@@ -131,7 +130,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    visionSub.update();
+    //visionSub.update();
     Scheduler.getInstance().run();
   }
 

@@ -8,13 +8,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.*;
+import frc.robot.OI;
+import frc.robot.Robot;
 
-public class TeleopDriveCommand extends Command {
-  public TeleopDriveCommand() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    requires(Robot.driveTrainSub);
+public class BallCommand extends Command {
+  public BallCommand() {
+    requires(Robot.ballSub);
   }
 
   // Called just before this Command runs the first time
@@ -25,7 +24,8 @@ public class TeleopDriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    drive();
+    intake();
+    outtake();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -37,18 +37,37 @@ public class TeleopDriveCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.ballSub.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.driveTrainSub.stop();
+    Robot.ballSub.stop();
   }
 
-  private void drive() {
-    Robot.driveTrainSub.tankDrive(-OI.leftStick.getY(), -OI.rightStick.getY());
+  private void intake() {
+    if(OI.operator.getRawButton(2)) {
+      Robot.ballSub.intake(1);
+    } else if(OI.operator.getRawButton(3)) {
+      Robot.ballSub.intake(-1);
+    } else {
+      Robot.ballSub.intake(0);
+    }
+  }
 
-    Robot.driveTrainSub.transmission(OI.leftStick.getRawButton(1), OI.leftStick.getRawButton(2));
+  private void outtake() {
+    if(OI.operator.getRawButton(8)) {
+      Robot.ballSub.rightOuttake(true);
+    } else {
+      Robot.ballSub.rightOuttake(false);
+    }
+
+    if(OI.operator.getRawButton(7)) {
+      //"Left"
+    } else {
+      
+    }
   }
 }

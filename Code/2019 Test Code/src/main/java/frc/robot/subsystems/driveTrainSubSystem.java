@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 //import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-//import frc.robot.*;
+import frc.robot.*;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.motionProfileCal.*;
 
 /**
  * Add your docs here.
  */
-public class driveTrainSubSystem extends Subsystem {
+public class DriveTrainSubSystem extends Subsystem {
 
   TalonSRX     
     leftDrive,
@@ -32,12 +32,14 @@ public class driveTrainSubSystem extends Subsystem {
 
   DoubleSolenoid transmission;
         
-  public driveTrainSubSystem() {
-    leftDrive = new TalonSRX(0);
-    leftDriveB = new TalonSRX(1);
+  public DriveTrainSubSystem() {
+    leftDrive = new TalonSRX(RobotMap.leftDrive);
+    leftDriveB = new TalonSRX(RobotMap.leftDriveB);
 
-    rightDrive = new TalonSRX(2);
-    rightDriveB = new TalonSRX(3);
+    rightDrive = new TalonSRX(RobotMap.rightDrive);
+    rightDriveB = new TalonSRX(RobotMap.rightDriveB);
+
+    leftDrive.setInverted(true);
     
     leftDriveB.follow(leftDrive);
     leftDriveB.setInverted(InvertType.FollowMaster);
@@ -45,7 +47,7 @@ public class driveTrainSubSystem extends Subsystem {
     rightDriveB.follow(rightDrive);
     rightDriveB.setInverted(InvertType.FollowMaster);
 
-    transmission = new DoubleSolenoid(0, 1);
+    transmission = new DoubleSolenoid(RobotMap.transmissionLow, RobotMap.transmissionHigh);
 
     configureTalons.configureTalon(leftDrive);
     configureTalons.configureTalon(rightDrive);
