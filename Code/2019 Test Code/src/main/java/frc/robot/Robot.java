@@ -28,7 +28,7 @@ import frc.robot.utils.*;
 public class Robot extends TimedRobot {
   
   public static DriveTrainSubSystem driveTrainSub = new DriveTrainSubSystem();
-  //public static VisionSubsystem visionSub = new VisionSubsystem();
+  public static VisionSubsystem visionSub = new VisionSubsystem();
   public static BallSubsystem ballSub = new BallSubsystem();
 
   public static OI m_oi;
@@ -43,12 +43,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
-    //visionSub.arduinoSettup();
-
+    // SmartDashboard.putData("Auto mode", m_chooser);
+    
+    visionSub.init();
     Utilities.init();
-
-
     
   }
 
@@ -62,6 +60,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    visionSub.update();
   }
 
   /**
@@ -71,6 +70,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    visionSub.testMode = false;
   }
 
   @Override
@@ -103,6 +103,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
+
+    visionSub.testMode = false;
   }
 
   /**
@@ -110,7 +112,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    //visionSub.update();
     Scheduler.getInstance().run();
   }
 
@@ -123,6 +124,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    visionSub.testMode = false;
   }
 
   /**
@@ -130,8 +133,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //visionSub.update();
+    
     Scheduler.getInstance().run();
+  }
+
+  @Override
+  public void testInit() {
+    visionSub.testMode = true;
   }
 
   /**
@@ -139,5 +147,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    Scheduler.getInstance().run();
   }
 }

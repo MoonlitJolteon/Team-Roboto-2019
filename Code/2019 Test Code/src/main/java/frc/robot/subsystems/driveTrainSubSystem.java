@@ -58,6 +58,19 @@ public class DriveTrainSubSystem extends Subsystem {
     leftDrive.set(ControlMode.PercentOutput, leftSpeed);
     rightDrive.set(ControlMode.PercentOutput, rightSpeed);
   }
+  public void arrDrive(double[] arr){
+    leftDrive.set(ControlMode.PercentOutput, arr[0]);
+    rightDrive.set(ControlMode.PercentOutput, arr[1]);    
+  }
+  public boolean visionDrive(double[] arr){
+    if (arr != null){
+      leftDrive.set(ControlMode.PercentOutput, arr[0]);
+      rightDrive.set(ControlMode.PercentOutput, arr[1]); 
+      return arr == new double[]{0,0};
+    }else{
+      return false;
+    }
+  }
 
   public void transmission(boolean buttonOne, boolean buttonTwo) {
     if(buttonOne) {
