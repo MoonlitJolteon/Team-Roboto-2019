@@ -45,9 +45,10 @@ public class TeleopDriveCommand extends Command {
   protected void interrupted() {
     Robot.driveTrainSub.stop();
   }
+
   private void drive() {
-    if (OI.operator.getPOV()==-1){
-      Robot.driveTrainSub.tankDrive(OI.leftStick.getY(), OI.rightStick.getY());
-    }
+    Robot.driveTrainSub.tankDrive(OI.leftStick.getY(), OI.rightStick.getY());
+
+    Robot.driveTrainSub.transmission(OI.leftStick.getRawButton(1), OI.leftStick.getRawButton(2));
   }
 }

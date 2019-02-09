@@ -7,41 +7,69 @@
 
 package frc.robot.subsystems;
 
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Spark;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 //import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 //import frc.robot.*;
 import frc.robot.commands.TeleopDriveCommand;
+import frc.robot.motionProfileCal.*;
 
 /**
  * Add your docs here.
  */
 public class driveTrainSubSystem extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
-  Spark
+
+  TalonSRX     
     leftDrive,
-    rightDrive;
+    leftDriveB,
+    rightDrive,
+    rightDriveB;  // Declare talons.
 
-    DifferentialDrive drive;
+  DoubleSolenoid transmission;
+        
+  public driveTrainSubSystem() {
+    leftDrive = new TalonSRX(0);
+    leftDriveB = new TalonSRX(1);
 
-    //DoubleSolenoid transmission;
+    rightDrive = new TalonSRX(2);
+    rightDriveB = new TalonSRX(3);
+    
+    leftDriveB.follow(leftDrive);
+    leftDriveB.setInverted(InvertType.FollowMaster);
 
-    public driveTrainSubSystem() {
-      leftDrive = new Spark(0);
-      rightDrive = new Spark(1);
+    rightDriveB.follow(rightDrive);
+    rightDriveB.setInverted(InvertType.FollowMaster);
 
-      drive = new DifferentialDrive(leftDrive, rightDrive);
+    transmission = new DoubleSolenoid(0, 1);
+
+    configureTalons.configureTalon(leftDrive);
+    configureTalons.configureTalon(rightDrive);
+
+  }
+
+  public void tankDrive(double leftSpeed, double rightSpeed){
+    leftDrive.set(ControlMode.PercentOutput, leftSpeed);
+    rightDrive.set(ControlMode.PercentOutput, rightSpeed);
+  }
+
+  public void transmission(boolean buttonOne, boolean buttonTwo) {
+    if(buttonOne) {
+      transmission.set(DoubleSolenoid.Value.kReverse);
+    } else if(buttonTwo) {
+      transmission.set(DoubleSolenoid.Value.kForward);
     }
-    public void tankDrive(double leftSpeed, double rightSpeed){
-      drive.tankDrive(leftSpeed, rightSpeed);
-    }
-    public void stop(){
-      drive.tankDrive(0,0);
-    }
+  }
+
+  public void stop(){
+    leftDrive.set(ControlMode.PercentOutput, 0);
+    rightDrive.set(ControlMode.PercentOutput, 0);
+  }
+
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new TeleopDriveCommand());

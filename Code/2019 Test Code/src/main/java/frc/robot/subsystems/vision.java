@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import java.util.HashMap;
 import java.util.Map;
-import frc.robot.commands.visionCommand;
 
 /**
  * Add your docs here.
@@ -22,29 +21,23 @@ public class vision extends Subsystem {
   // here. Call these from Commands.
   private SerialPort arduino;
   public Map<String, String> visionData=new HashMap<String,String>();
+  
   public void arduinoSettup(){
     try{
       arduino = new SerialPort(115200,Port.kUSB);
-    }catch (Exception e){
-      System.out.println(e);
+    } catch (Exception e){
+      System.err.println(e);
     }
   }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new visionCommand());
+    //setDefaultCommand(new visionCommand());
   }
+
   public Map<String,String> getData(){
-    Map<String,String> temp = new HashMap<String,String>();
-    String s = arduino.readString();
-    String[] pairs = s.split(",");
-    for (int i=0;i<pairs.length;i++){
-      String pair = pairs[i];
-      String[] keyValue = pair.split(":");
-      temp.put(keyValue[0],keyValue[1]);
-    }
-    visionData=temp;
+    update();
     return(visionData);
   }
   public void update(){
@@ -56,18 +49,20 @@ public class vision extends Subsystem {
     } catch(Exception e) {
       visionData=temp;
       success=false;
-    }
-    if (success){
-      System.out.println(s);
-      String[] pairs = s.split(",");
-      for (int i=0;i<pairs.length;i++){
-        String pair = pairs[i];
-        String[] keyValue = pair.split(":");
-        if(keyValue.length>1){
-          temp.put(keyValue[0],keyValue[1]);
+      System.err.println(e);
+    } finally {
+      if (success){
+        System.out.println(s);
+        String[] pairs = s.split(",");
+        for (int i=0;i<pairs.length;i++){
+          String pair = pairs[i];
+          String[] keyValue = pair.split(":");
+          if(keyValue.length>1){
+            temp.put(keyValue[0],keyValue[1]);
+          }
         }
+        visionData=temp;
       }
-      visionData=temp;
     }
   }
 }
