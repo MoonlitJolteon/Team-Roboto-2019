@@ -99,17 +99,45 @@ int myAverage(int nums[]){
     }
     return(int(total/num));
 }
-/*
-{
-  visionTarget:{
-    x:int,
-    y:int,
-    ...
-  },
-  ball:{
-    x:int,
-    x:int,
-    ...
+
+class smoother{
+  public:
+  const static int avNum=10;
+  int avNums[avNum];
+  int index=0;
+  
+  int average() {
+    int total=0;
+    int num=0;
+    int i;
+    for(i=0; i<avNum;i++){
+        if (avNums[i]!=-1){
+          total=total+avNums[i];
+          num++;
+        }
+      }
+    return(int(total/num));
   }
-}
-*/
+  void add(int num){
+    avNums[index]=num;
+    index++;
+    if (index==avNum){
+      index=0;
+    }
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
