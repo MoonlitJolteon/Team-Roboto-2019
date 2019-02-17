@@ -12,12 +12,14 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 //import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import frc.robot.*;
 import frc.robot.commands.TeleopDriveCommand;
 import frc.robot.motionProfileCal.*;
+import frc.robot.utils.Utilities;
 
 /**
  * Add your docs here.
@@ -57,6 +59,8 @@ public class DriveTrainSubSystem extends Subsystem {
   public void tankDrive(double leftSpeed, double rightSpeed){
     leftDrive.set(ControlMode.PercentOutput, leftSpeed);
     rightDrive.set(ControlMode.PercentOutput, rightSpeed);
+
+    averagedEncoderVelocity();
   }
   public void arrDrive(double[] arr){
     leftDrive.set(ControlMode.PercentOutput, arr[0]);
@@ -66,16 +70,34 @@ public class DriveTrainSubSystem extends Subsystem {
     if (arr != null){
       leftDrive.set(ControlMode.PercentOutput, arr[0]);
       rightDrive.set(ControlMode.PercentOutput, arr[1]); 
-      return arr == new double[]{0,0};
+      return (arr[0] == 0 && arr[1] == 0);
     }else{
       return false;
     }
+  }
+
+  public void driveToDist(double inch) {
+    leftDrive.set(ControlMode.MotionMagic, Utilities.inchToEncode(inch));
+    rightDrive.set(ControlMode.MotionMagic, Utilities.inchToEncode(inch));
+  }
+
+  public void resetDriveEncoders() {
+    leftDrive.setSelectedSensorPosition(0);
+    rightDrive.setSelectedSensorPosition(0);
   }
 
   public void transmission(boolean buttonOne, boolean buttonTwo) {
     if(buttonOne) {
       transmission.set(DoubleSolenoid.Value.kReverse);
     } else if(buttonTwo) {
+      transmission.set(DoubleSolenoid.Value.kForward);
+    }
+  }
+
+  public void autoTrans() {
+    if(averagedEncoderVelocity() > 1670 && transmission.get() == DoubleSolenoid.Value.kForward) {
+      transmission.set(DoubleSolenoid.Value.kReverse);
+    } else if(averagedEncoderVelocity() < 1470 && transmission.get() == DoubleSolenoid.Value.kReverse) {
       transmission.set(DoubleSolenoid.Value.kForward);
     }
   }
@@ -88,5 +110,14 @@ public class DriveTrainSubSystem extends Subsystem {
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new TeleopDriveCommand());
+  }
+  
+  private double averagedEncoderVelocity() {
+    double output = 0;
+    output += Math.abs(leftDrive.getSelectedSensorVelocity());
+    output += Math.abs(rightDrive.getSelectedSensorVelocity());
+    output /= 2;
+    //System.out.println(output);
+    return output;
   }
 }

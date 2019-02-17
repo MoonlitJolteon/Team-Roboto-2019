@@ -11,9 +11,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
-public class BallCommand extends Command {
-  public BallCommand() {
-    requires(Robot.ballSub);
+public class ElevatorCommand extends Command {
+  public ElevatorCommand() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.elevatorSub);
   }
 
   // Called just before this Command runs the first time
@@ -24,8 +25,8 @@ public class BallCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    intake();
-    outtake();
+    elevate();
+    elevateAtSpeed();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -37,37 +38,27 @@ public class BallCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.ballSub.stop();
+    Robot.elevatorSub.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.ballSub.stop();
+    Robot.elevatorSub.stop();
   }
 
-  private void intake() {
-    if(OI.operator.getRawButton(2)) {
-      Robot.ballSub.intake(1);
-    } else if(OI.operator.getRawButton(3)) {
-      Robot.ballSub.intake(-1);
-    } else {
-      Robot.ballSub.intake(0);
-    }
+  private void elevate() {
+
   }
 
-  private void outtake() {
-    if(OI.operator.getRawButton(7)) {
-      Robot.ballSub.rightOuttake(true);
+  private void elevateAtSpeed() {
+    if(OI.operator.getY() > 0.5) {
+      Robot.elevatorSub.elevate(false);
+    } else if(OI.operator.getY() < -0.5) {
+      Robot.elevatorSub.elevate(true);
     } else {
-      Robot.ballSub.rightOuttake(false);
-    }
-
-    if(OI.operator.getRawButton(8)) {
-      Robot.ballSub.leftOuttake(true);
-    } else {
-      Robot.ballSub.leftOuttake(false);
+      Robot.elevatorSub.stop();
     }
   }
 }

@@ -8,12 +8,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.Robot;
 
-public class BallCommand extends Command {
-  public BallCommand() {
-    requires(Robot.ballSub);
+public class TeleopDriveToWall extends Command {
+
+  double distance = 0;
+  double curDistance = 0;
+  double distanceFromWall = 20;
+  boolean runBefore = false;
+
+  public TeleopDriveToWall() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.driveTrainSub);
+    requires(Robot.driveTrainSub);
   }
 
   // Called just before this Command runs the first time
@@ -24,50 +31,48 @@ public class BallCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    intake();
-    outtake();
+    driveToWall();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    if(curDistance <= distanceFromWall && runBefore && curDistance > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.ballSub.stop();
+    if(curDistance <= distanceFromWall && runBefore) {
+      runBefore = false;
+      System.out.println("Done Running");
+    }
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.ballSub.stop();
   }
 
-  private void intake() {
-    if(OI.operator.getRawButton(2)) {
-      Robot.ballSub.intake(1);
-    } else if(OI.operator.getRawButton(3)) {
-      Robot.ballSub.intake(-1);
-    } else {
-      Robot.ballSub.intake(0);
-    }
-  }
+  private void driveToWall() {
+    if(runBefore == false) {
+      distance = Robot.visionSub.getValue("lidar");
+      Robot.driveTrainSub.resetDriveEncoders();
 
-  private void outtake() {
-    if(OI.operator.getRawButton(7)) {
-      Robot.ballSub.rightOuttake(true);
+      if(distance > 0) {
+        runBefore = true;
+      } else {
+        runBefore = false;
+      }
     } else {
-      Robot.ballSub.rightOuttake(false);
-    }
-
-    if(OI.operator.getRawButton(8)) {
-      Robot.ballSub.leftOuttake(true);
-    } else {
-      Robot.ballSub.leftOuttake(false);
+      Robot.driveTrainSub.driveToDist(-(distance - distanceFromWall - 1));
+      curDistance = Robot.visionSub.getValue("lidar");
+      
     }
   }
 }

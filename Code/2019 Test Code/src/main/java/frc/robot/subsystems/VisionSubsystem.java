@@ -48,7 +48,7 @@ public class VisionSubsystem extends Subsystem {
   
   public void arduinoSetup(){
     try{
-      arduino = new SerialPort(115200,Port.kUSB);
+      arduino = new SerialPort(115200,Port.kUSB1);
       hasArduino = true;
     } catch (Exception e){
       if (testMode){
@@ -74,10 +74,10 @@ public class VisionSubsystem extends Subsystem {
       boolean success = true;
       String s = "";
       try{
-        s = arduino.readString(); //Attempts to read serial 
+        s = arduino.readString(); //Attempts to connect to serial 
       } catch(Exception e) {
         setNull();
-        success=false; //Stop rest of code to prevent errors
+        success=false; //Stop rest of code to prevent errors when fails to conect
         if (testMode){
           System.err.println(e);
         }
@@ -93,7 +93,7 @@ public class VisionSubsystem extends Subsystem {
           }
           visionData=temp;
           if (testMode){
-            System.out.println(temp.get("cargo-x"));
+            System.out.println(temp.get("tape-x"));
           }
         }
       }
@@ -112,53 +112,67 @@ public class VisionSubsystem extends Subsystem {
   public void setServo(double position) {
     pixyServo.set(position);
   }
-
-  public double[] aimLeft(){
-    final int[] target = {90,110};
-    final double speed = 0.5;
+  public double[] aim(int[] target, double lSpeed, double hSpeed){
     if (Robot.visionSub.visionData.get("tape-x")!="none"){
-      int temp = Integer.parseInt(Robot.visionSub.visionData.get("tape-x"));
-      if (temp < target[0] ){
-        return new double[]{-speed, speed};
-      } else if (temp > target[1]){
-        return new double[]{speed, -speed};
-      } else {
-        return new double[]{0, 0};
+      boolean success = true;
+      int temp = 0;
+      try{
+        temp = Integer.parseInt(Robot.visionSub.visionData.get("tape-x"));
+        //System.out.println(temp);
+      } catch (Exception e){
+        success=false;
       }
-    } else {
+      if (success){
+        if (temp < target[0] ){
+          return new double[]{-hSpeed, hSpeed};
+        } else if (temp > target[1]){
+          return new double[]{hSpeed, -hSpeed};
+        } else {
+          if (temp < target[2]){
+            return new double[]{-lSpeed, lSpeed};
+          }else if (temp>target[3]){
+            return new double[]{lSpeed,-lSpeed};
+          }else{
+            return new double[]{0,0};
+          }
+        }
+      }else{
+        return null;
+      }
+    }else{
       return null;
-    }
+    } 
+  }
+  public double[] aimLeft(){
+    return aim(new int[]{138,178,153,163},0.15,0.3);
   }
   public double[] aimRight(){
-    final int[] target = {90,110};
-    final double speed = 0.5;
-    if (Robot.visionSub.visionData.get("tape-x")!="none"){
-      int temp = Integer.parseInt(Robot.visionSub.visionData.get("tape-x"));
-      if (temp < target[0] ){
-        return new double[]{-speed, speed};
-      } else if (temp > target[1]){
-        return new double[]{speed, -speed};
+    return aim(new int[]{138,178,153,163},0.15,0.3);
+  }
+  public double[] aimFront(){
+    return aim(new int[]{138,178,153,163},0.15,0.3);
+  }
+
+  public double getValue(String value) {
+
+    boolean success = true;
+    double output = -1;
+
+    if (Robot.visionSub.visionData.get(value)!="none") {
+      try {
+        output = Double.parseDouble(Robot.visionSub.visionData.get(value));
+      } catch (Exception e) {
+        success = false;
+      }
+
+      System.out.println(output);
+      if(success) {
+        return output;
       } else {
-        return new double[]{0, 0};
+        return -1;
       }
     } else {
-      return null;
-    }
-}
-public double[] aimFront(){
-  final int[] target = {90,110};
-    final double speed = 0.5;
-    if (Robot.visionSub.visionData.get("tape-x")!="none"){
-      int temp = Integer.parseInt(Robot.visionSub.visionData.get("tape-x"));
-      if (temp < target[0] ){
-        return new double[]{-speed, speed};
-      } else if (temp > target[1]){
-        return new double[]{speed, -speed};
-      } else {
-        return new double[]{0, 0};
-      }
-    } else {
-      return null;
+      return -1;
     }
   }
 }

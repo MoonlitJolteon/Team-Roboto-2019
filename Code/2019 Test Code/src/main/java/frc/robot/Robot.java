@@ -7,14 +7,16 @@
 
 package frc.robot;
 
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.cscore.*;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.BallSubsystem;
-import frc.robot.subsystems.DriveTrainSubSystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.*;
 
 import frc.robot.utils.*;
 
@@ -30,6 +32,8 @@ public class Robot extends TimedRobot {
   public static DriveTrainSubSystem driveTrainSub = new DriveTrainSubSystem();
   public static VisionSubsystem visionSub = new VisionSubsystem();
   public static BallSubsystem ballSub = new BallSubsystem();
+  public static ElevatorSubsystem elevatorSub = new ElevatorSubsystem();
+  public static HatchSubsystem hatchSub = new HatchSubsystem();
 
   public static OI m_oi;
   Command m_autonomousCommand;
@@ -44,6 +48,12 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     // SmartDashboard.putData("Auto mode", m_chooser);
+    
+    new Thread(() -> {
+      CameraServer server = CameraServer.getInstance();
+      UsbCamera camera = server.startAutomaticCapture();
+      camera.setResolution(160, 120);
+    }).start();
     
     visionSub.init();
     Utilities.init();

@@ -8,12 +8,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
-import frc.robot.Robot;
+import frc.robot.*;
 
-public class BallCommand extends Command {
-  public BallCommand() {
-    requires(Robot.ballSub);
+public class TeleopHatchCommand extends Command {
+  public TeleopHatchCommand() {
+    // Use requires() here to declare subsystem dependencies
+    requires(Robot.hatchSub);
   }
 
   // Called just before this Command runs the first time
@@ -24,8 +24,7 @@ public class BallCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    intake();
-    outtake();
+    operator();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -37,37 +36,18 @@ public class BallCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    Robot.ballSub.stop();
+    Robot.hatchSub.reset();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    Robot.ballSub.stop();
+    Robot.hatchSub.reset();
   }
 
-  private void intake() {
-    if(OI.operator.getRawButton(2)) {
-      Robot.ballSub.intake(1);
-    } else if(OI.operator.getRawButton(3)) {
-      Robot.ballSub.intake(-1);
-    } else {
-      Robot.ballSub.intake(0);
-    }
-  }
-
-  private void outtake() {
-    if(OI.operator.getRawButton(7)) {
-      Robot.ballSub.rightOuttake(true);
-    } else {
-      Robot.ballSub.rightOuttake(false);
-    }
-
-    if(OI.operator.getRawButton(8)) {
-      Robot.ballSub.leftOuttake(true);
-    } else {
-      Robot.ballSub.leftOuttake(false);
-    }
+  private void operator() {
+    Robot.hatchSub.hatchExtension(OI.operator.getRawButton(4));
+    Robot.hatchSub.hatchEjection(OI.operator.getRawButton(1));
   }
 }

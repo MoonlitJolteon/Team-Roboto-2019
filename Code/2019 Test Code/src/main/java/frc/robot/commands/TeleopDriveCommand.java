@@ -47,7 +47,14 @@ public class TeleopDriveCommand extends Command {
   }
 
   private void drive() {
-    Robot.driveTrainSub.tankDrive(-OI.leftStick.getY(), -OI.rightStick.getY());
+    double leftSpeed = -OI.leftStick.getY();
+    double rightSpeed = -OI.rightStick.getY();
+
+    if(!  OI.rightStick.getRawButton(1)) {
+      Robot.driveTrainSub.tankDrive(-rightSpeed, -leftSpeed);
+    } else {
+      Robot.driveTrainSub.tankDrive(leftSpeed, rightSpeed);
+    }
 
     Robot.driveTrainSub.transmission(OI.leftStick.getRawButton(1), OI.leftStick.getRawButton(2));
   }

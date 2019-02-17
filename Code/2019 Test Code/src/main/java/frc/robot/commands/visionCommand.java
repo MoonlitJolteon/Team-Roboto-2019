@@ -29,6 +29,9 @@ public class VisionCommand extends Command {
   protected void execute() {
 
     boolean onTarget = false;
+    
+
+    //SmartDashboard.putNumber("POV", OI.operator.getPOV());
 
     switch(OI.operator.getPOV()) {
       case 270:      

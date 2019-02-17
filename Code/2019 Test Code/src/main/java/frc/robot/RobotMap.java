@@ -18,10 +18,14 @@ public class RobotMap {
 
   //Drive Motors
   public static final int 
-    leftDrive = 0, // Left drive motor talon, CAN channel 0.
-    leftDriveB = 1, // Left drive motor talon B, CAN channel 1.
-    rightDrive = 2, // Right drive motor talon, CAN channel 2.
-    rightDriveB = 3; // Right drive motor talon B, CAN channel 3.
+    leftDrive = 0, // Left drive motor talon, CAN ID 0.
+    leftDriveB = 1, // Left drive motor talon B, CAN ID 1.
+    rightDrive = 2, // Right drive motor talon, CAN ID 2.
+    rightDriveB = 3, // Right drive motor talon B, CAN ID 3.
+
+    elevatorTalon = 4, // Elevator Talon, CAN ID 4.
+    elevatorVicA = 5, // Elevator Victor A, CAN ID 5.
+    elevatorVicB = 6; // Elevator Victor B, CAN ID 6.
 
   //Servos
   public static final int pixyServo = 4; // Servo PWM channel.
@@ -31,5 +35,7 @@ public class RobotMap {
     transmissionLow = 0, // Drive transmission low channel, PCM channel 0.
     transmissionHigh = 1, // Drive transmission high channel, PCM channel 1.
     outtakeLeft = 2, // Ball left outtake, PCM channel 2.
-    outtakeRight = 3; // Ball right outtake, PCM channel 3.
+    outtakeRight = 3, // Ball right outtake, PCM channel 3.
+    hatchExtend = 4, // Hatch assembly extension, PCM channel 4.
+    hatchEject = 5; // Hatch ejection, PCM channel 5.
 }
