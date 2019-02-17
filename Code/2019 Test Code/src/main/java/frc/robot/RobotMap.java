@@ -37,5 +37,7 @@ public class RobotMap {
     outtakeLeft = 2, // Ball left outtake, PCM channel 2.
     outtakeRight = 3, // Ball right outtake, PCM channel 3.
     hatchExtend = 4, // Hatch assembly extension, PCM channel 4.
-    hatchEject = 5; // Hatch ejection, PCM channel 5.
+    hatchEject = 5, // Hatch ejection, PCM channel 5.
+    ballIntakeExtend = 6, // Ball intake extension, PCM channel 6.
+    notYetUsed = 7; // Unused.
 }

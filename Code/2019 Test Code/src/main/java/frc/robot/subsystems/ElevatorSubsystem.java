@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 /**
  * Add your docs here.
@@ -38,6 +39,8 @@ public class ElevatorSubsystem extends Subsystem {
 
     follower1.setInverted(InvertType.FollowMaster);
     follower2.setInverted(InvertType.FollowMaster);
+
+    leadTalon.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
@@ -48,7 +51,7 @@ public class ElevatorSubsystem extends Subsystem {
 
   public void elevate(boolean up) {
     if(up) {
-      leadTalon.set(ControlMode.PercentOutput, 0.1);
+      leadTalon.set(ControlMode.PercentOutput, 0.4);
     } else {
       leadTalon.set(ControlMode.PercentOutput, -0.1);
     }

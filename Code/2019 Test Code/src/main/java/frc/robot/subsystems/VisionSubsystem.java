@@ -92,7 +92,7 @@ public class VisionSubsystem extends Subsystem {
             }
           }
           visionData=temp;
-          if (testMode){
+          if (true){
             System.out.println(temp.get("tape-x"));
           }
         }
@@ -143,14 +143,30 @@ public class VisionSubsystem extends Subsystem {
       return null;
     } 
   }
+  public double[] aimPC(double[] target, double[] motorRange){
+    double[] visionRange={0,target[0],target[1],316};
+
+    double tape = getValue("tape-x");
+    double speed = 0;
+    double motorConstant = (motorRange[0]-motorRange[1])/(visionRange[1]-visionRange[0]);
+    if (tape>visionRange[0]&&tape<visionRange[1]) {
+      speed=motorConstant*(tape-visionRange[0])+motorRange[1];
+    } else if (tape>visionRange[2]&&tape<visionRange[3]){
+      speed=motorConstant*(tape-visionRange[3])-motorRange[1];
+    }
+    return(new double[]{-speed,speed});
+  }
   public double[] aimLeft(){
-    return aim(new int[]{138,178,153,163},0.15,0.3);
+    return(aimPC(new double[]{143,173},new double[]{0.15,0.5}));
+    //return aim(new int[]{128,188,148,168},0.15,0.3);
   }
   public double[] aimRight(){
-    return aim(new int[]{138,178,153,163},0.15,0.3);
+    return(aimPC(new double[]{143,173},new double[]{0.15,0.5}));
+    //return aim(new int[]{128,188,148,168},0.15,0.3);
   }
   public double[] aimFront(){
-    return aim(new int[]{138,178,153,163},0.15,0.3);
+    return(aimPC(new double[]{143,173},new double[]{0.15,0.5}));
+    //return aim(new int[]{128,188,148,168},0.15,0.3);
   }
 
   public double getValue(String value) {

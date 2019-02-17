@@ -45,6 +45,7 @@ public class VisionCommand extends Command {
         break;
       default:
         onTarget = false;
+        Robot.driveTrainSub.stop();
     }
 
     SmartDashboard.putBoolean("On Target", onTarget);
@@ -60,12 +61,14 @@ public class VisionCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    Robot.driveTrainSub.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+   Robot.driveTrainSub.stop();
   }
 
 }

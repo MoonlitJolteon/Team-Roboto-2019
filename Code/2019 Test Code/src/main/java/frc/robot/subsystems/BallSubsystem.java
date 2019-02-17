@@ -24,7 +24,8 @@ public class BallSubsystem extends Subsystem {
 
   Solenoid 
     rightOuttake,
-    leftOuttake;
+    leftOuttake,
+    intakeExtend;
 
   public BallSubsystem() {
     intake = new Spark(RobotMap.ballIntake);
@@ -32,6 +33,7 @@ public class BallSubsystem extends Subsystem {
 
     leftOuttake = new Solenoid(RobotMap.outtakeLeft);
     rightOuttake = new Solenoid(RobotMap.outtakeRight);
+    intakeExtend = new Solenoid(RobotMap.ballIntakeExtend);
   }
 
   @Override
@@ -42,6 +44,7 @@ public class BallSubsystem extends Subsystem {
 
   public void intake(double speed) {
     intake.set(speed);
+    intakeExtend.set(true);
   }
 
   public void rightOuttake(boolean out) {
