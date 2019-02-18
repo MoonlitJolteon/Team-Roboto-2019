@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-public class configureTalons {
+public class configureDriveTalons {
 
     public static void configureTalon(TalonSRX _talon) {
 
@@ -21,14 +21,14 @@ public class configureTalons {
     
         /* Set Motion Magic gains in slot0 - see documentation */
         _talon.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-        _talon.config_kF(Constants.kSlotIdx, Constants.kGains.kF, Constants.kTimeoutMs);
-        _talon.config_kP(Constants.kSlotIdx, Constants.kGains.kP, Constants.kTimeoutMs);
-        _talon.config_kI(Constants.kSlotIdx, Constants.kGains.kI, Constants.kTimeoutMs);
-        _talon.config_kD(Constants.kSlotIdx, Constants.kGains.kD, Constants.kTimeoutMs);
+        _talon.config_kF(Constants.kSlotIdx, Constants.drivekGains.kF, Constants.kTimeoutMs);
+        _talon.config_kP(Constants.kSlotIdx, Constants.drivekGains.kP, Constants.kTimeoutMs);
+        _talon.config_kI(Constants.kSlotIdx, Constants.drivekGains.kI, Constants.kTimeoutMs);
+        _talon.config_kD(Constants.kSlotIdx, Constants.drivekGains.kD, Constants.kTimeoutMs);
     
         /* Set acceleration and vcruise velocity - see documentation */
-        _talon.configMotionCruiseVelocity(Constants.maxVelocity, Constants.kTimeoutMs);
-        _talon.configMotionAcceleration(Constants.acceleration, Constants.kTimeoutMs);
+        _talon.configMotionCruiseVelocity(Constants.driveMaxVelocity, Constants.kTimeoutMs);
+        _talon.configMotionAcceleration(Constants.driveAcceleration, Constants.kTimeoutMs);
     
         /* Zero the sensor */
         _talon.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);

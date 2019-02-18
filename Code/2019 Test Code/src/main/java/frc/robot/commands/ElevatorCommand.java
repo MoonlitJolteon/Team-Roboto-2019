@@ -53,12 +53,37 @@ public class ElevatorCommand extends Command {
   }
 
   private void elevateAtSpeed() {
+     
+    toPot();
+    //fromSpeed();
+
+    Robot.elevatorSub.log();
+  }
+
+  private void fromSpeed() {
     if(OI.operator.getY() > 0.5) {
       Robot.elevatorSub.elevate(false);
     } else if(OI.operator.getY() < -0.5) {
       Robot.elevatorSub.elevate(true);
     } else {
       Robot.elevatorSub.stop();
+    }
+  }
+
+  private void toPot() {
+    switch(OI.operator.getPOV()) {
+      case 180:
+        Robot.elevatorSub.goToPosition(1);
+        break;
+      case 90:
+        Robot.elevatorSub.goToPosition(2);
+        break;
+      case 0:
+        Robot.elevatorSub.goToPosition(3);
+        break;
+      default:
+      Robot.elevatorSub.goToPosition(1);
+        break;
     }
   }
 }

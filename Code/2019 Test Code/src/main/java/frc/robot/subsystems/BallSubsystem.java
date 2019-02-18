@@ -44,7 +44,25 @@ public class BallSubsystem extends Subsystem {
 
   public void intake(double speed) {
     intake.set(speed);
-    intakeExtend.set(true);
+  }
+
+  boolean prev = false;
+  public void bump(boolean on) {
+    //toggle(on);
+    intakeExtend.set(on);
+  }
+
+  private void toggle(boolean on) {
+    if(on && !prev) {
+      if(intakeExtend.get()) {
+        intakeExtend.set(false);
+      } else {
+        intakeExtend.set(true);
+      }
+      prev = true;
+    } else if(!on && prev) {
+      prev = false;
+    }
   }
 
   public void rightOuttake(boolean out) {

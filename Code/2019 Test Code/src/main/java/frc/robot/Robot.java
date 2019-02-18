@@ -27,7 +27,7 @@ import frc.robot.utils.*;
 public class Robot extends TimedRobot {
   
   public static DriveTrainSubSystem driveTrainSub = new DriveTrainSubSystem();
-  public static VisionSubsystem visionSub = new VisionSubsystem();
+  //public static VisionSubsystem visionSub = new VisionSubsystem();
   public static BallSubsystem ballSub = new BallSubsystem();
   public static ElevatorSubsystem elevatorSub = new ElevatorSubsystem();
   public static HatchSubsystem hatchSub = new HatchSubsystem();
@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
       camera.setResolution(160, 120);
     }).start();
     
-    visionSub.init();
+    //visionSub.init();
     Utilities.init();
     
   }
@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    visionSub.update();
+    //visionSub.update();
   }
 
   /**
@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    visionSub.testMode = false;
+    //visionSub.testMode = false;
   }
 
   @Override
@@ -111,7 +111,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.start();
     }
 
-    visionSub.testMode = false;
+    //visionSub.testMode = false;
   }
 
   /**
@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    visionSub.testMode = false;
+    //visionSub.testMode = false;
   }
 
   /**
@@ -146,7 +146,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    visionSub.testMode = true;
+    //visionSub.testMode = true;
   }
 
   /**

@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import frc.robot.OI;
 import frc.robot.commands.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -16,6 +16,8 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import frc.robot.motionProfileCal.*;
 
 /**
  * Add your docs here.
@@ -41,6 +43,10 @@ public class ElevatorSubsystem extends Subsystem {
     follower2.setInverted(InvertType.FollowMaster);
 
     leadTalon.setNeutralMode(NeutralMode.Brake);
+
+    leadTalon.setSelectedSensorPosition(0);
+
+    configureElevatorTalon.configureTalon(leadTalon);
   }
 
   @Override
@@ -53,7 +59,29 @@ public class ElevatorSubsystem extends Subsystem {
     if(up) {
       leadTalon.set(ControlMode.PercentOutput, 0.4);
     } else {
-      leadTalon.set(ControlMode.PercentOutput, -0.1);
+      leadTalon.set(ControlMode.PercentOutput, -0.2);
+    }
+    
+  }
+
+  public void log() {
+    //System.out.println(leadTalon.getSelectedSensorVelocity());
+  }
+
+  public void goToPosition(int pos) {
+    switch(pos) {
+      case 1:
+        leadTalon.set(ControlMode.MotionMagic, 250);
+        break;
+      case 2:
+        leadTalon.set(ControlMode.MotionMagic, 28500);
+        break;
+      case 3:
+        //leadTalon.set(ControlMode.MotionMagic, 44000);
+        break;
+      default:
+        leadTalon.set(ControlMode.MotionMagic, 250);
+        break;
     }
   }
 

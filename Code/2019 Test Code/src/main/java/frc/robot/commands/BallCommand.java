@@ -26,6 +26,7 @@ public class BallCommand extends Command {
   protected void execute() {
     intake();
     outtake();
+    bump();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -55,6 +56,10 @@ public class BallCommand extends Command {
     } else {
       Robot.ballSub.intake(0);
     }
+  }
+
+  private void bump() {
+    Robot.ballSub.bump(OI.operator.getRawButton(6));
   }
 
   private void outtake() {

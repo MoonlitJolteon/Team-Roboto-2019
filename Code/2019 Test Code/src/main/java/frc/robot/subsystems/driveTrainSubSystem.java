@@ -50,8 +50,8 @@ public class DriveTrainSubSystem extends Subsystem {
 
     transmission = new DoubleSolenoid(RobotMap.transmissionLow, RobotMap.transmissionHigh);
 
-    configureTalons.configureTalon(leftDrive);
-    configureTalons.configureTalon(rightDrive);
+    configureDriveTalons.configureTalon(leftDrive);
+    configureDriveTalons.configureTalon(rightDrive);
 
   }
 

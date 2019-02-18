@@ -27,8 +27,8 @@ public class OI {
   public static JoystickButton driveButton = new JoystickButton(operator, 10);
 
   public OI() {
-    visionButton.whileHeld(new VisionCommand());
-    driveButton.whenPressed(new TeleopDriveToWall());
+    //visionButton.whileHeld(new VisionCommand());
+    //driveButton.whenPressed(new TeleopDriveToWall());
   }
 
 }

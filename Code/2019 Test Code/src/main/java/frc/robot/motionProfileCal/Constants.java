@@ -27,9 +27,15 @@ public class Constants {
 	 * Gains used in Motion Magic, to be adjusted accordingly
      * Gains(kp, ki, kd, kf, izone, peak output);
      */
-	public static final Gains kGains = new Gains(0.15, 0, 0, 0.2, 0, 1.0);
+	public static final Gains drivekGains = new Gains(0.15, 0, 0, 0.2, 0, 1.0);
 	
-	public static final int acceleration = 750;
+	public static final int driveAcceleration = 750;
 
-	public static final int maxVelocity = 19000;
+	public static final int driveMaxVelocity = 19000;
+
+	public static final Gains elevatekGains = new Gains(0.15, 0, 0, 0.2, 0, 1.0);
+	
+	public static final int elevateAcceleration = 1000;
+
+	public static final int elevateMaxVelocity = 2000;
 }

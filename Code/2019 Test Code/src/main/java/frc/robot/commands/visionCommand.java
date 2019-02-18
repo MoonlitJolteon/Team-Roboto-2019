@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-
+/*
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -17,6 +17,7 @@ public class VisionCommand extends Command {
     // eg. requires(chassis);
     requires(Robot.visionSub);
     requires(Robot.driveTrainSub);
+    requires(Robot.elevatorSub);
   }
 
   // Called just before this Command runs the first time
@@ -72,3 +73,4 @@ public class VisionCommand extends Command {
   }
 
 }
+*/
