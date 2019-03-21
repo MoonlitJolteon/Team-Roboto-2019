@@ -8,7 +8,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.*;
+import frc.robot.utils.Utilities;
 
 public class TeleopDriveCommand extends Command {
   public TeleopDriveCommand() {
@@ -25,7 +27,8 @@ public class TeleopDriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    drive();
+    HABClimb();
+    autoClimb();
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -50,12 +53,58 @@ public class TeleopDriveCommand extends Command {
     double leftSpeed = -OI.leftStick.getY();
     double rightSpeed = -OI.rightStick.getY();
 
-    if(!  OI.rightStick.getRawButton(1)) {
-      Robot.driveTrainSub.tankDrive(-rightSpeed, -leftSpeed);
+    if(OI.operator.getRawButton(10)) {
+      Robot.driveTrainSub.tankDrive(-1, -1);
     } else {
-      Robot.driveTrainSub.tankDrive(leftSpeed, rightSpeed);
+      if(!OI.rightStick.getRawButton(1)) {
+        Robot.driveTrainSub.tankDrive(-leftSpeed, -rightSpeed);
+      } else {
+        Robot.driveTrainSub.tankDrive(rightSpeed, leftSpeed);
+      }
     }
-
+    SmartDashboard.putBoolean("Above Line", Robot.driveTrainSub.aboveLine());
     Robot.driveTrainSub.transmission(OI.leftStick.getRawButton(1), OI.leftStick.getRawButton(2));
+    //Robot.driveTrainSub.autoTrans();
+  }
+
+  private void HABClimb() {
+    Robot.driveTrainSub.frontLift(OI.rightStick.getRawButton(2));
+    Robot.driveTrainSub.backLift(OI.rightStick.getRawButton(3));
+  }
+
+  int stepNum = 10;
+  private void nextStep() {
+    Robot.driveTrainSub.resetDriveEncoders();
+    stepNum = stepNum + 1;
+  };
+
+  private void autoClimb() {
+    if(OI.operator.getRawButton(9)) {
+      switch(stepNum) {
+        case 0:
+          System.out.println("YELL");
+          Robot.driveTrainSub.transmission(false, true);
+          Robot.driveTrainSub.frontLift(true);
+          Robot.driveTrainSub.tankDrive(-0.5, -0.5);
+          // if(Robot.driveTrainSub.encoderPositions()[0] <= -Utilities.inchToEncode(1)) {
+          //   nextStep();
+          // }
+          break;
+        case 1:
+          Robot.driveTrainSub.tankDrive(0.5, 0.5);
+          // if(Robot.driveTrainSub.encoderPositions()[0] >= Utilities.footToEncode(1)) {
+          //   nextStep();
+          // }
+          break;
+        case 3:
+          Robot.driveTrainSub.tankDrive(1, 1);
+          Robot.driveTrainSub.backLift(true);
+          Robot.driveTrainSub.frontLift(false);
+          break;
+      }
+    } else {
+      drive();
+      //stepNum = 0;
+    }
   }
 }

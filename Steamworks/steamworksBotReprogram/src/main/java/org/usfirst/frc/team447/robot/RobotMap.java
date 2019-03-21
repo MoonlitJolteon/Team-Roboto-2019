@@ -51,7 +51,16 @@ public class RobotMap {
 		fRight = 6,
 		fLeft = 7,
 		rRight = 8,
-		rLeft = 9;
-	
-	
+		rLeft = 9,
+
+	//Buttons
+		gearHigh=1,
+		gearLow=2,
+		gearClampB=1,
+		gearPickUp=2,
+		//gearPickUp=4,
+		gearClose=4,
+		//gearClose=3,
+		gearDropB=3;
+		//gearDropB=5;
 }

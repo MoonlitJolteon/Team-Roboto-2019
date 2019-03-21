@@ -57,35 +57,39 @@ public class ElevatorSubsystem extends Subsystem {
 
   public void elevate(boolean up) {
     if(up) {
-      leadTalon.set(ControlMode.PercentOutput, 0.4);
+      leadTalon.set(ControlMode.PercentOutput, 0.2);
     } else {
-      leadTalon.set(ControlMode.PercentOutput, -0.2);
+      leadTalon.set(ControlMode.PercentOutput, -0.1);
     }
     
   }
 
   public void log() {
-    //System.out.println(leadTalon.getSelectedSensorVelocity());
+    //System.out.println(leadTalon.getSelectedSensorPosition());
   }
 
   public void goToPosition(int pos) {
     switch(pos) {
       case 1:
-        leadTalon.set(ControlMode.MotionMagic, 250);
+        leadTalon.set(ControlMode.MotionMagic, 0);
         break;
       case 2:
-        leadTalon.set(ControlMode.MotionMagic, 28500);
+        leadTalon.set(ControlMode.MotionMagic, inchToElevate(26.5));
         break;
       case 3:
-        //leadTalon.set(ControlMode.MotionMagic, 44000);
+        leadTalon.set(ControlMode.MotionMagic, inchToElevate(40));
         break;
       default:
-        leadTalon.set(ControlMode.MotionMagic, 250);
+        //leadTalon.set(ControlMode.MotionMagic, 0);
         break;
     }
   }
 
   public void stop() {
     leadTalon.set(ControlMode.PercentOutput, 0);
+  }
+
+  private double inchToElevate(double inches) {
+    return 1205.333d * inches;
   }
 }

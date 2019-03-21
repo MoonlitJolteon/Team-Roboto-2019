@@ -23,12 +23,11 @@ public class OI {
       operator = new Joystick(2),
       autoSelect = new Joystick(3);
 
-  public static JoystickButton visionButton = new JoystickButton(operator, 9);
+  public static JoystickButton visionButton = new JoystickButton(operator, 5);
   public static JoystickButton driveButton = new JoystickButton(operator, 10);
 
   public OI() {
-    //visionButton.whileHeld(new VisionCommand());
-    //driveButton.whenPressed(new TeleopDriveToWall());
+    visionButton.whileHeld(new VisionCommand());
   }
 
 }

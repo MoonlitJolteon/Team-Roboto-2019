@@ -63,13 +63,13 @@ public class BallCommand extends Command {
   }
 
   private void outtake() {
-    if(OI.operator.getRawButton(7)) {
+    if(OI.operator.getRawButton(8)) {
       Robot.ballSub.rightOuttake(true);
     } else {
       Robot.ballSub.rightOuttake(false);
     }
 
-    if(OI.operator.getRawButton(8)) {
+    if(OI.operator.getRawButton(7)) {
       Robot.ballSub.leftOuttake(true);
     } else {
       Robot.ballSub.leftOuttake(false);

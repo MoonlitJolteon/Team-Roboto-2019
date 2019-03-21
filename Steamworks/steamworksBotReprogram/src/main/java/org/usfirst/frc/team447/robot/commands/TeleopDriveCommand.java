@@ -53,9 +53,9 @@ public class TeleopDriveCommand extends Command {
     
     private void transmission() {
     	
-    	if(OI.rightDrive.getRawButton(1)) {
+    	if(OI.rightDrive.getRawButton(RobotMap.gearHigh)) {
     		Robot.driveTrainSub.shiftGears("high");
-    	} else if(OI.rightDrive.getRawButton(2)) {
+    	} else if(OI.rightDrive.getRawButton(RobotMap.gearLow)) {
     		Robot.driveTrainSub.shiftGears("low");
     	}
     }

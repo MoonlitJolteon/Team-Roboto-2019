@@ -25,7 +25,6 @@ public class ElevatorCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    elevate();
     elevateAtSpeed();
   }
 
@@ -48,14 +47,10 @@ public class ElevatorCommand extends Command {
     Robot.elevatorSub.stop();
   }
 
-  private void elevate() {
-
-  }
-
   private void elevateAtSpeed() {
      
     toPot();
-    //fromSpeed();
+    //fromSpeed(); // for testing
 
     Robot.elevatorSub.log();
   }
@@ -82,7 +77,7 @@ public class ElevatorCommand extends Command {
         Robot.elevatorSub.goToPosition(3);
         break;
       default:
-      Robot.elevatorSub.goToPosition(1);
+        Robot.elevatorSub.goToPosition(-1);
         break;
     }
   }

@@ -40,12 +40,19 @@ public class HatchSubsystem extends Subsystem {
     }
   }
 
+  boolean prevEject = false;
   public void hatchEjection(boolean button) {
-    if(button) {
-      hatchEject.set(true);
-    } else {
-      hatchEject.set(false);
-    }
+    /*if(button && !prevEject) {
+      if(hatchEject.get()) {
+        hatchEject.set(false);
+      } else {
+        hatchEject.set(true);
+      }
+      prevEject = true;
+    } else if(!button && prevEject) {
+      prevEject = false;
+    }*/
+    hatchEject.set(!button);
   }
   
   public void reset() {

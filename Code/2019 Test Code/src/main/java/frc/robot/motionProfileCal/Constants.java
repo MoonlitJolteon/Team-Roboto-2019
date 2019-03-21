@@ -35,7 +35,7 @@ public class Constants {
 
 	public static final Gains elevatekGains = new Gains(0.15, 0, 0, 0.2, 0, 1.0);
 	
-	public static final int elevateAcceleration = 1000;
+	public static final int elevateAcceleration = 2048;
 
-	public static final int elevateMaxVelocity = 2000;
+	public static final int elevateMaxVelocity = 16384;
 }

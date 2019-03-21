@@ -7,7 +7,7 @@
 
 package frc.robot.commands;
 
-/*
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
@@ -15,12 +15,11 @@ public class TeleopDriveToWall extends Command {
 
   double distance = 0;
   double curDistance = 0;
-  double distanceFromWall = 20;
+  double distanceFromWall = 5;
   boolean runBefore = false;
 
   public TeleopDriveToWall() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.driveTrainSub);
     requires(Robot.driveTrainSub);
   }
 
@@ -38,43 +37,23 @@ public class TeleopDriveToWall extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(curDistance <= distanceFromWall && runBefore && curDistance > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    if(curDistance <= distanceFromWall && runBefore) {
-      runBefore = false;
-      System.out.println("Done Running");
-    }
+    Robot.driveTrainSub.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    Robot.driveTrainSub.stop();
   }
 
   private void driveToWall() {
-    if(runBefore == false) {
-      distance = Robot.visionSub.getValue("lidar");
-      Robot.driveTrainSub.resetDriveEncoders();
-
-      if(distance > 0) {
-        runBefore = true;
-      } else {
-        runBefore = false;
-      }
-    } else {
-      Robot.driveTrainSub.driveToDist(-(distance - distanceFromWall - 1));
-      curDistance = Robot.visionSub.getValue("lidar");
-      
-    }
+    //Robot.driveTrainSub.tankDrive(-0.5, -0.5);
   }
 }
-*/

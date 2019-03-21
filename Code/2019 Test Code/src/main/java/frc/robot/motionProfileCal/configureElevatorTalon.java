@@ -31,7 +31,7 @@ public class configureElevatorTalon {
         _talon.configMotionAcceleration(Constants.elevateAcceleration, Constants.kTimeoutMs);
     
         /* Zero the sensor */
-        _talon.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+        _talon.setSelectedSensorPosition(-150, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
 
         _talon.setSensorPhase(false);
         _talon.setInverted(true);

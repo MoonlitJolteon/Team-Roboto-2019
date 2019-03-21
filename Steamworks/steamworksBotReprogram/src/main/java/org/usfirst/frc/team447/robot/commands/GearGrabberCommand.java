@@ -2,6 +2,7 @@ package org.usfirst.frc.team447.robot.commands;
 
 import org.usfirst.frc.team447.robot.OI;
 import org.usfirst.frc.team447.robot.Robot;
+import org.usfirst.frc.team447.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -23,8 +24,8 @@ public class GearGrabberCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	Robot.gearSubSystem.clamp(OI.operator.getRawButton(1));
-    	Robot.gearSubSystem.drop(OI.operator.getRawButton(2), OI.operator.getRawButton(4), OI.operator.getRawButton(3));
+    	Robot.gearSubSystem.clamp(OI.operator.getRawButton(RobotMap.gearClampB));
+    	Robot.gearSubSystem.drop(OI.operator.getRawButton(RobotMap.gearPickUp), OI.operator.getRawButton(RobotMap.gearClose), OI.operator.getRawButton(RobotMap.gearDropB));
     	
     }
 

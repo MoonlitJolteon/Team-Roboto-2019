@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 //import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -32,6 +33,9 @@ public class DriveTrainSubSystem extends Subsystem {
     rightDriveB;  // Declare talons.
 
   DoubleSolenoid transmission;
+  Solenoid
+    climbFront,
+    climbBack;
         
   public DriveTrainSubSystem() {
     leftDrive = new TalonSRX(RobotMap.leftDrive);
@@ -49,6 +53,9 @@ public class DriveTrainSubSystem extends Subsystem {
     rightDriveB.setInverted(InvertType.FollowMaster);
 
     transmission = new DoubleSolenoid(RobotMap.transmissionLow, RobotMap.transmissionHigh);
+
+    climbFront = new Solenoid(1, RobotMap.liftFront);
+    climbBack = new Solenoid(1, RobotMap.liftBack);
 
     configureDriveTalons.configureTalon(leftDrive);
     configureDriveTalons.configureTalon(rightDrive);
@@ -78,6 +85,11 @@ public class DriveTrainSubSystem extends Subsystem {
   public void driveToDist(double inch) {
     leftDrive.set(ControlMode.MotionMagic, Utilities.inchToEncode(inch));
     rightDrive.set(ControlMode.MotionMagic, Utilities.inchToEncode(inch));
+  }
+
+  public void driveToPos(double inch) {
+    leftDrive.set(ControlMode.Position, Utilities.inchToEncode(inch));
+    rightDrive.set(ControlMode.Position, Utilities.inchToEncode(inch));
   }
 
   public void resetDriveEncoders() {
@@ -118,5 +130,44 @@ public class DriveTrainSubSystem extends Subsystem {
     output /= 2;
     //System.out.println(output);
     return output;
+  }
+
+  public int[] encoderPositions() {
+    int[] output = new int[]{
+      leftDrive.getSelectedSensorPosition(),
+      rightDrive.getSelectedSensorPosition()
+    };
+    return output;
+  }
+
+  boolean prevFront = false;
+  public void frontLift(boolean on) {
+    /*if(on && !prevFront) {
+      if(climbFront.get()) {
+        climbFront.set(false);
+      } else {
+        climbFront.set(true);
+      }
+      prevFront = true;
+    } else if(!on && prevFront) {
+      prevFront = false;
+    }*/
+
+    climbFront.set(on);
+  }
+
+  boolean prevBack = false;
+  public void backLift(boolean on) {
+    /*if(on && !prevBack) {
+      if(climbBack.get()) {
+        climbBack.set(false);
+      } else {
+        climbBack.set(true);
+      }
+      prevBack = true;
+    } else if(!on && prevBack) {
+      prevBack = false;
+    }*/
+    climbBack.set(on);
   }
 }

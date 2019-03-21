@@ -7,8 +7,8 @@
 
 package frc.robot.subsystems;
 
-/*
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
@@ -46,7 +46,7 @@ public class VisionSubsystem extends Subsystem {
   
   public void arduinoSetup(){
     try{
-      arduino = new SerialPort(115200,Port.kUSB1);
+      arduino = new SerialPort(115200,Port.kUSB);
       hasArduino = true;
     } catch (Exception e){
       if (testMode){
@@ -59,7 +59,7 @@ public class VisionSubsystem extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    //setDefaultCommand(new visionCommand());
+    // setDefaultCommand(new visionCommand());
   }
 
   public Map<String,String> getData(){
@@ -90,11 +90,20 @@ public class VisionSubsystem extends Subsystem {
             }
           }
           visionData=temp;
-          if (true){
+          if (testMode){
             System.out.println(temp.get("tape-x"));
+          }
+
+          if(getValue("tape-x") != -1) {
+            SmartDashboard.putBoolean("Have Target", true);
+          } else {
+            SmartDashboard.putBoolean("Have Target", false);
           }
         }
       }
+      SmartDashboard.putBoolean("Vision Available", true);
+    } else {
+      SmartDashboard.putBoolean("Vision Available", false);
     }
   }
 
@@ -155,15 +164,15 @@ public class VisionSubsystem extends Subsystem {
     return(new double[]{-speed,speed});
   }
   public double[] aimLeft(){
-    return(aimPC(new double[]{143,173},new double[]{0.15,0.5}));
+    return(aimPC(new double[]{150,162},new double[]{0.15,0.4}));
     //return aim(new int[]{128,188,148,168},0.15,0.3);
   }
   public double[] aimRight(){
-    return(aimPC(new double[]{143,173},new double[]{0.15,0.5}));
+    return(aimPC(new double[]{150,162},new double[]{0.15,0.4}));
     //return aim(new int[]{128,188,148,168},0.15,0.3);
   }
   public double[] aimFront(){
-    return(aimPC(new double[]{143,173},new double[]{0.15,0.5}));
+    return(aimPC(new double[]{150,162},new double[]{0.15,0.4}));
     //return aim(new int[]{128,188,148,168},0.15,0.3);
   }
 
@@ -179,7 +188,7 @@ public class VisionSubsystem extends Subsystem {
         success = false;
       }
 
-      System.out.println(output);
+      //System.out.println(output);
       if(success) {
         return output;
       } else {
@@ -189,4 +198,4 @@ public class VisionSubsystem extends Subsystem {
       return -1;
     }
   }
-}*/
+}

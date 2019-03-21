@@ -30,7 +30,7 @@ public class RobotMap {
   //Servos
   public static final int pixyServo = 4; // Servo PWM channel.
 
-  // PCM Channels (pneumatics)
+  // PCM Channels on board 1 (pneumatics)
   public static final int 
     transmissionLow = 0, // Drive transmission low channel, PCM channel 0.
     transmissionHigh = 1, // Drive transmission high channel, PCM channel 1.
@@ -40,4 +40,9 @@ public class RobotMap {
     hatchEject = 5, // Hatch ejection, PCM channel 5.
     ballIntakeExtend = 6, // Ball intake extension, PCM channel 6.
     notYetUsed = 7; // Unused.
+
+  // PCM Channels on board 2;
+  public static final int
+    liftFront = 0,
+    liftBack = 1;
 }

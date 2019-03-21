@@ -23,5 +23,5 @@ public class OI {
 		operator = new Joystick(2),
 	
 		autoSelect = new Joystick(3);
-	
+		
 }

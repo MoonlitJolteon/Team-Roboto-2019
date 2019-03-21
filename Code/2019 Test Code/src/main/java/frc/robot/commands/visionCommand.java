@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-/*
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -18,6 +18,8 @@ public class VisionCommand extends Command {
     requires(Robot.visionSub);
     requires(Robot.driveTrainSub);
     requires(Robot.elevatorSub);
+    requires(Robot.ballSub);
+    requires(Robot.hatchSub);
   }
 
   // Called just before this Command runs the first time
@@ -44,10 +46,15 @@ public class VisionCommand extends Command {
       case 0:
         onTarget = Robot.driveTrainSub.visionDrive(Robot.visionSub.aimFront());
         break;
+      case 180:
+        Robot.driveTrainSub.tankDrive(0.5, 0.5);
+        break;
       default:
         onTarget = false;
         Robot.driveTrainSub.stop();
     }
+
+    Robot.driveTrainSub.transmission(OI.operator.getRawButton(7), OI.operator.getRawButton(8));
 
     SmartDashboard.putBoolean("On Target", onTarget);
 
@@ -73,4 +80,3 @@ public class VisionCommand extends Command {
   }
 
 }
-*/
