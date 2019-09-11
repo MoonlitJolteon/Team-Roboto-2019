@@ -7,13 +7,22 @@
 
 package frc.robot;
 
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.*;
+
+import edu.wpi.cscore.*;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.*;
+
+import frc.robot.utils.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,9 +32,19 @@ import frc.robot.subsystems.ExampleSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
-  public static OI m_oi;
+  
+  //public static DriveTrainSubSystem driveTrainSub = new DriveTrainSubSystem();
+  public static SparkMaxDriveTrain driveTrainSub = new SparkMaxDriveTrain();
+  public static VisionSubsystem visionSub = new VisionSubsystem();
+  public static BallSubsystem ballSub = new BallSubsystem();
+  public static ElevatorSubsystem elevatorSub = new ElevatorSubsystem();
+  public static HatchSubsystem hatchSub = new HatchSubsystem();
 
+  public static double matchTime;
+
+  public static Scalar alertColor = new Scalar(0, 0, 255);
+  public static boolean alertEnabled = false;
+  public static OI m_oi;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -36,9 +55,41 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
     // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
+    // SmartDashboard.putData("Auto mode", m_chooser);
+
+    Thread cameraThread = new Thread(() -> {
+
+      UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+      camera.setResolution(160, 120);
+      
+      CvSink cvSink = CameraServer.getInstance().getVideo();
+      CvSource outputStream = CameraServer.getInstance().putVideo("Processed", 160, 120);
+
+      Mat source = new Mat();
+      Mat output = new Mat();
+      
+      while(!Thread.interrupted()) {
+          try {
+            cvSink.grabFrame(source);
+            Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2BGRA);
+            /*Imgproc.rectangle(output, new Point(18, 50), new Point(19,70), new Scalar(255,255,255));
+            Imgproc.rectangle(output, new Point(160-18, 50), new Point(160-19,70), new Scalar(255,255,255));
+            Imgproc.rectangle(output, new Point(79, 50), new Point(80,70), new Scalar(255,255,255));
+            */
+            if(alertEnabled)
+            Imgproc.rectangle(output, new Point(4, 4), new Point(156, 116), alertColor, 8);
+            outputStream.putFrame(output);
+          } catch (Exception e) {
+
+          }
+      }
+    });
+    
+    cameraThread.start();
+    visionSub.init();
+    Utilities.init();
+    
   }
 
   /**
@@ -51,6 +102,33 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    visionSub.update();
+    DriverStation ds = DriverStation.getInstance();
+    matchTime = ds.getMatchTime();
+    
+    if (matchTime>45 || ds.isAutonomous() || matchTime < 0){
+      alertEnabled = false;
+      //SmartDashboard.putBooleanArray("matchTime", new boolean[]{true,false,false,false,false});
+    } else if (matchTime>30) {
+      alertEnabled = true;
+      alertColor = new Scalar(0, 215, 255);
+      //SmartDashboard.putBooleanArray("matchTime", new boolean[]{false,true,false,false,false});
+    } else if (matchTime>20){
+      alertEnabled = true;
+      alertColor = new Scalar(0, 0, 255);
+      //SmartDashboard.putBooleanArray("matchTime", new boolean[]{false,false,true,false,false});
+    } else {
+      alertEnabled = true;
+      if(Math.round(matchTime*2)%2==1){
+        alertColor = new Scalar(0, 215, 255);
+        //SmartDashboard.putBooleanArray("matchTime", new boolean[]{false,false,false,true,false});
+      }else{
+        alertColor = new Scalar(0, 0, 255);
+        //SmartDashboard.putBooleanArray("matchTime", new boolean[]{false,false,false,false,true});
+      }
+      //SmartDashboard.putNumber("matchTime",Math.round(matchTime)%2+3);
+    }
+    SmartDashboard.putNumber("matchTimeNumber", matchTime);
   }
 
   /**
@@ -60,6 +138,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    visionSub.testMode = false;
   }
 
   @Override
@@ -81,7 +160,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_chooser.getSelected();
-
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -93,6 +171,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
+
+    //visionSub.testMode = false;
   }
 
   /**
@@ -112,6 +192,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    visionSub.testMode = false;
   }
 
   /**
@@ -119,7 +201,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    
     Scheduler.getInstance().run();
+  }
+
+  @Override
+  public void testInit() {
+    visionSub.testMode = true;
   }
 
   /**
@@ -127,5 +215,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    Scheduler.getInstance().run();
   }
 }

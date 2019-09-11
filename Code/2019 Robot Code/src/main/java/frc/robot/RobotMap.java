@@ -14,13 +14,35 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // public static int leftMotor = 1;
-  // public static int rightMotor = 2;
+  public static final int ballIntake = 0; // Ball intake spark, PWM channel 0.
 
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
+  //Drive Motors
+  public static final int 
+    leftDrive = 0, // Left drive motor talon, CAN ID 0.
+    leftDriveB = 1, // Left drive motor talon B, CAN ID 1.
+    rightDrive = 2, // Right drive motor talon, CAN ID 2.
+    rightDriveB = 3, // Right drive motor talon B, CAN ID 3.
+
+    elevatorTalon = 4, // Elevator Talon, CAN ID 4.
+    elevatorVicA = 5, // Elevator Victor A, CAN ID 5.
+    elevatorVicB = 6; // Elevator Victor B, CAN ID 6.
+
+  //Servos
+  public static final int pixyServo = 4; // Servo PWM channel.
+
+  // PCM Channels on board 1 (pneumatics)
+  public static final int 
+    transmissionLow = 0, // Drive transmission low channel, PCM channel 0.
+    transmissionHigh = 1, // Drive transmission high channel, PCM channel 1.
+    outtakeLeft = 2, // Ball left outtake, PCM channel 2.
+    outtakeRight = 3, // Ball right outtake, PCM channel 3.
+    hatchExtend = 4, // Hatch assembly extension, PCM channel 4.
+    hatchEject = 5, // Hatch ejection, PCM channel 5.
+    ballIntakeExtend = 6, // Ball intake extension, PCM channel 6.
+    notYetUsed = 7; // Unused.
+
+  // PCM Channels on board 2;
+  public static final int
+    liftFront = 0,
+    liftBack = 1;
 }
