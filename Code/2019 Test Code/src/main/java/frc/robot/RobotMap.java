@@ -15,6 +15,7 @@ package frc.robot;
  */
 public class RobotMap {
   public static final int ballIntake = 0; // Ball intake spark, PWM channel 0.
+  public static final int ballOuttakeMotor = 1; // Ball outtake spark, PWM channel 1.
 
   //Drive Motors
   public static final int 

@@ -20,7 +20,7 @@ public class BallSubsystem extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  Spark intake;
+  Spark intake, outtakeMotor;
 
   Solenoid 
     rightOuttake,
@@ -30,6 +30,7 @@ public class BallSubsystem extends Subsystem {
   public BallSubsystem() {
     intake = new Spark(RobotMap.ballIntake);
     intake.setInverted(true);
+    outtakeMotor = new Spark(RobotMap.ballOuttakeMotor);
 
     leftOuttake = new Solenoid(RobotMap.outtakeLeft);
     rightOuttake = new Solenoid(RobotMap.outtakeRight);
@@ -52,18 +53,18 @@ public class BallSubsystem extends Subsystem {
     intakeExtend.set(on);
   }
 
-  private void toggle(boolean on) {
-    if(on && !prev) {
-      if(intakeExtend.get()) {
-        intakeExtend.set(false);
-      } else {
-        intakeExtend.set(true);
-      }
-      prev = true;
-    } else if(!on && prev) {
-      prev = false;
-    }
-  }
+  // private void toggle(boolean on) {
+  //   if(on && !prev) {
+  //     if(intakeExtend.get()) {
+  //       intakeExtend.set(false);
+  //     } else {
+  //       intakeExtend.set(true);
+  //     }
+  //     prev = true;
+  //   } else if(!on && prev) {
+  //     prev = false;
+  //   }
+  // }
 
   public void rightOuttake(boolean out) {
     if(out) {
@@ -75,9 +76,9 @@ public class BallSubsystem extends Subsystem {
 
   public void leftOuttake(boolean out) {
     if(out) {
-      leftOuttake.set(true);
+      outtakeMotor.set(0.5);
     } else {
-      leftOuttake.set(false);
+      outtakeMotor.set(0);
     }
   }
 

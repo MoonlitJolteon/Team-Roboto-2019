@@ -8,7 +8,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.OI;
 import frc.robot.commands.*;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
