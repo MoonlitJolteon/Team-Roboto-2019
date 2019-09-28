@@ -66,7 +66,7 @@ public class BallSubsystem extends Subsystem {
   //   }
   // }
 
-  public void rightOuttake(boolean out) {
+  public void outtakeSolenoid(boolean out) {
     if(out) {
       rightOuttake.set(true);
     } else {
@@ -74,12 +74,8 @@ public class BallSubsystem extends Subsystem {
     }
   }
 
-  public void leftOuttake(boolean out) {
-    if(out) {
-      outtakeMotor.set(0.5);
-    } else {
-      outtakeMotor.set(0);
-    }
+  public void outtakeMotor(double out) {
+    outtakeMotor.set(out);
   }
 
   public void stop() {

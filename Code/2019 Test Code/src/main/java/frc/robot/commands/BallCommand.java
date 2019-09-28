@@ -64,15 +64,15 @@ public class BallCommand extends Command {
 
   private void outtake() {
     if(OI.operator.getRawButton(8)) {
-      Robot.ballSub.rightOuttake(true);
+      Robot.ballSub.outtakeSolenoid(true);
     } else {
-      Robot.ballSub.rightOuttake(false);
+      Robot.ballSub.outtakeSolenoid(false);
     }
 
     if(OI.operator.getRawButton(7)) {
-      Robot.ballSub.leftOuttake(true);
+      Robot.ballSub.outtakeMotor(0.5);
     } else {
-      Robot.ballSub.leftOuttake(false);
+      Robot.ballSub.outtakeMotor(0);
     }
   }
 }

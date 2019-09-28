@@ -55,15 +55,15 @@ public class ElevatorCommand extends Command {
     Robot.elevatorSub.log();
   }
 
-  private void fromSpeed() {
-    if(OI.operator.getY() > 0.5) {
-      Robot.elevatorSub.elevate(false);
-    } else if(OI.operator.getY() < -0.5) {
-      Robot.elevatorSub.elevate(true);
-    } else {
-      Robot.elevatorSub.stop();
-    }
-  }
+  // private void fromSpeed() {
+  //   if(OI.operator.getY() > 0.5) {
+  //     Robot.elevatorSub.elevate(false);
+  //   } else if(OI.operator.getY() < -0.5) {
+  //     Robot.elevatorSub.elevate(true);
+  //   } else {
+  //     Robot.elevatorSub.stop();
+  //   }
+  // }
 
   private void toPot() {
     switch(OI.operator.getPOV()) {

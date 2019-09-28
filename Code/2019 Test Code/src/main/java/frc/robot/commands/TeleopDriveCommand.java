@@ -10,7 +10,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.*;
-import frc.robot.utils.Utilities;
 
 public class TeleopDriveCommand extends Command {
   public TeleopDriveCommand() {
@@ -73,10 +72,10 @@ public class TeleopDriveCommand extends Command {
   }
 
   int stepNum = 10;
-  private void nextStep() {
-    Robot.driveTrainSub.resetDriveEncoders();
-    stepNum = stepNum + 1;
-  };
+  // private void nextStep() {
+  //   Robot.driveTrainSub.resetDriveEncoders();
+  //   stepNum = stepNum + 1;
+  // };
 
   private void autoClimb() {
     if(OI.operator.getRawButton(9)) {
